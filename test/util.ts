@@ -101,10 +101,12 @@ export const stream = (src: Uint8Array, dst: {
 // create worker string
 const cws = (pkg: string, method: string = '_cjsDefault') => `
   const ${method == '_cjsDefault' ? method : `{ ${method} }`} = require('${pkg}');
-  const { Worker, workerData, parentPort } = require('worker_threads');
+  const { workerData, parentPort, isMarkedAsUntransferable } = require('worker_threads');
   try {
     const buf = ${method}(...(Array.isArray(workerData) ? workerData : [workerData]));
-    parentPort.postMessage(buf, [buf.buffer]);
+    // Node marks pooled Buffer slabs as untransferable; only transfer safe ArrayBuffers
+    const tr = buf.buffer instanceof ArrayBuffer && !(isMarkedAsUntransferable && isMarkedAsUntransferable(buf.buffer)) ? [buf.buffer] : [];
+    parentPort.postMessage(buf, tr);
   } catch (err) {
     parentPort.postMessage({ err });
   }

@@ -63,7 +63,7 @@ zipSyncFn('should create valid zip file', async () => {
 });
 
 zipSyncFn('should add Zip64 EOCD data when standard EOCDR is not enough', () => {
-  const filesToZip = {};
+  const filesToZip: Record<number, Uint8Array> = {};
   for (let i = 0; i < 70_000; i++) {
     filesToZip[i] = new Uint8Array();
   }
@@ -103,7 +103,7 @@ zipSyncFn('should add Zip64 EOCD data when standard EOCDR is not enough', () => 
 });
 
 zipSyncFn('should not add Zip64 EOCD data when is it not necessary', () => {
-  const filesToZip = {};
+  const filesToZip: Record<number, Uint8Array> = {};
   for (let i = 0; i < 65_535; i++) {
     filesToZip[i] = new Uint8Array();
   }
@@ -174,7 +174,7 @@ const zipClass = suite('Zip');
 
 zipClass('should create valid zip file', async () => {
   const zipped = await new Promise<Uint8Array>((resolve, reject) => {
-    const chunks = [];
+    const chunks: Uint8Array<ArrayBuffer>[] = [];
     const zip = new Zip();
     zip.ondata = (err, chunk, final) => {
       if (err) reject(err);
@@ -234,7 +234,7 @@ zipClass('should create valid zip file', async () => {
 
 zipClass('should add Zip64 Extra Field if one of the fields in file header is too small', async () => {
   const zipped = await new Promise<Uint8Array>((resolve, reject) => {
-    const chunks = [];
+    const chunks: Uint8Array<ArrayBuffer>[] = [];
     const zip = new Zip();
     zip.ondata = (err, chunk, final) => {
       if (err) reject(err);
@@ -246,7 +246,7 @@ zipClass('should add Zip64 Extra Field if one of the fields in file header is to
       originalSizeMock: number;
       zip64?: boolean;
 
-      protected process(chunk: Uint8Array, final: boolean) {
+      protected process(chunk: Uint8Array<ArrayBuffer>, final: boolean) {
         this.size = this.originalSizeMock;
         this.ondata(null, chunk, final);
       }
@@ -424,7 +424,7 @@ function hexToBytes(hex: string | string[]) {
   return new Uint8Array(b.buffer, b.byteOffset, b.byteLength);
 }
 
-function mergeChunks(chunks: Buffer[]) {
+function mergeChunks(chunks: Uint8Array<ArrayBuffer>[]) {
   const b = Buffer.concat(chunks);
   return new Uint8Array(b.buffer, b.byteOffset, b.byteLength);
 }
@@ -447,11 +447,11 @@ function unpackAsync(zipArchive: Uint8Array) {
 
 function unpackStream(zipArchive: Uint8Array, Decoder: UnzipDecoderConstructor) {
   return new Promise(async (resolve) => {
-    const result = {};
-    const toAwait = [];
+    const result: Record<string, Uint8Array> = {};
+    const toAwait: Promise<void>[] = [];
     const unzip = new Unzip(entry => {
       toAwait.push(new Promise<void>((resolve, reject) => {
-        const chunks = [];
+        const chunks: Uint8Array<ArrayBuffer>[] = [];
         entry.ondata = (err, chunk, final) => {
           if (err) reject(err);
           chunks.push(chunk);

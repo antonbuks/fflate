@@ -3450,7 +3450,7 @@ export function zip(data: AsyncZippable, opts: AsyncZipOptions | FlateCallback, 
         }
       };
       if (!f.cm) {
-        cbl(null, du);
+        cbl(null, du as Uint8Array<ArrayBuffer>);
       } else if (f.su < 160000) {
         cbl(null, deflateSync(du, zo));
       } else {
