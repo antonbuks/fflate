@@ -183,3 +183,14 @@ A method called when the stream is no longer needed, for clean-up
 purposes. This will not always be called after the stream completes,
 so you may wish to call this.terminate() after the final chunk is
 processed if you have clean-up logic.
+
+___
+
+### zip64
+
+• `Optional` **zip64**: `boolean`
+
+Flag used to enforce the Zip64 format for Data Descriptor as described
+in PKZIP's APPNOTE.txt, section 4.3.9.2.
+Set this flag to `true` if you suspect your file will be larger than 4GB
+before or after compression.
