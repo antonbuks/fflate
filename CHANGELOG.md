@@ -1,4 +1,9 @@
-## 0.8.3
+## 0.9.0
+- Add ZIP64 write support, based on [101arrowz/fflate#230](https://github.com/101arrowz/fflate/pull/230)
+  - Automatic Zip64 end of central directory record and locator when the classic EOCDR is not enough
+  - Automatic Zip64 extended information extra field when local or central file headers cannot hold the sizes or offsets
+  - New `zip64` flag on ZIP stream entries to emit Zip64 data descriptors for large files of unknown size
+- Fix TypeScript errors in tests under `noImplicitAny`
 - Fix buffer over-read for Zip64 extra fields
 - Support sync flushes (`Z_SYNC_FLUSH` in zlib)
   - Allows for immediate decompression of all pushed bytes

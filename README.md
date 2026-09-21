@@ -1,6 +1,8 @@
 # fflate
 High performance (de)compression in an 8kB package
 
+This package is a maintained fork of [`fflate`](https://github.com/101arrowz/fflate) with ZIP64 write support, based on [PR #230](https://github.com/101arrowz/fflate/pull/230) by @kajkal. Install with `npm i @antonbks/fflate` and import the same way (`import * as fflate from '@antonbks/fflate'`). ZIP64 records are written automatically when an archive exceeds classic ZIP limits (65,535 files, or sizes/offsets beyond 4 GiB), and ZIP stream entries accept a `zip64` flag for large files of unknown size.
+
 ## Why fflate?
 `fflate` (short for fast flate) is the **fastest, smallest, and most versatile** pure JavaScript compression and decompression library in existence, handily beating [`pako`](https://npmjs.com/package/pako), [`tiny-inflate`](https://npmjs.com/package/tiny-inflate), and [`UZIP.js`](https://github.com/photopea/UZIP.js) in performance benchmarks while being multiple times more lightweight. Its compression ratios are often better than even the original Zlib C library. It includes support for DEFLATE, GZIP, and Zlib data. Data compressed by `fflate` can be decompressed by other tools, and vice versa.
 

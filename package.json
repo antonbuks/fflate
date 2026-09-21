@@ -1,6 +1,6 @@
 {
-  "name": "fflate",
-  "version": "0.8.3",
+  "name": "@antonbks/fflate",
+  "version": "0.9.0",
   "description": "High performance (de)compression in an 8kB package",
   "main": "./lib/index.cjs",
   "module": "./esm/browser.js",
@@ -61,13 +61,16 @@
   },
   "sideEffects": false,
   "homepage": "https://101arrowz.github.io/fflate",
-  "repository": "https://github.com/101arrowz/fflate",
+  "repository": "https://github.com/antonbuks/fflate",
   "bugs": {
     "email": "arjunbarrett@gmail.com",
-    "url": "https://github.com/101arrowz/fflate/issues"
+    "url": "https://github.com/antonbuks/fflate/issues"
   },
   "author": "Arjun Barrett <arjunbarrett@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "gzip",
     "gunzip",
@@ -84,7 +87,8 @@
     "fast",
     "zip",
     "unzip",
-    "non-blocking"
+    "non-blocking",
+    "zip64"
   ],
   "scripts": {
     "build": "npm run build:lib && npm run build:docs && npm run build:demo",
@@ -95,7 +99,7 @@
     "build:demo": "tsc --project tsconfig.demo.json && parcel build demo/index.html --no-cache --public-url \"./\" && SC=cpGHPages npm run script",
     "build:docs": "typedoc --plugin typedoc-plugin-markdown --hideBreadcrumbs --readme none --disableSources --excludePrivate --excludeProtected --expandParameters --githubPages false --out docs/ src/index.ts",
     "test": "TS_NODE_PROJECT=test/tsconfig.json uvu -b -r ts-node/register test",
-    "prepack": "npm run build && npm run test"
+    "prepack": "npm run build:lib && npm run test"
   },
   "devDependencies": {
     "@parcel/service-worker": "^2.9.3",
